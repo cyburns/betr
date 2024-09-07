@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useRef } from "react";
 import { SafeAreaView, View } from "react-native";
 
 import {
@@ -20,31 +20,26 @@ import * as WebBrowser from "expo-web-browser";
 import QRCodeButton from "@/components/QRCodeButton";
 import VideoViewComponent from "@/components/VideoView";
 
-export default function HomeScreen() {
-  const cameraRef = React.useRef<CameraView>(null);
-  const [cameraMode, setCameraMode] = React.useState<CameraMode>("picture");
-  const [cameraTorch, setCameraTorch] = React.useState<boolean>(false);
-  const [cameraFlash, setCameraFlash] = React.useState<FlashMode>("off");
-  const [cameraFacing, setCameraFacing] = React.useState<"front" | "back">(
-    "back"
-  );
-  const [cameraZoom, setCameraZoom] = React.useState<number>(0);
-  const [picture, setPicture] = React.useState<string>(""); // "https://picsum.photos/seed/696/3000/2000"
-  const [video, setVideo] = React.useState<string>(
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-  ); //  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+const HomeScreen = () => {
+  const cameraRef = useRef<CameraView>(null);
+  const [cameraMode, setCameraMode] = useState<CameraMode>("picture");
+  const [cameraTorch, setCameraTorch] = useState<boolean>(false);
+  const [cameraFlash, setCameraFlash] = useState<FlashMode>("off");
+  const [cameraFacing, setCameraFacing] = useState<"front" | "back">("back");
+  const [cameraZoom, setCameraZoom] = useState<number>(0);
+  const [picture, setPicture] = useState<string>("");
+  const [video, setVideo] = useState<string>("");
+  const [isBrowsing, setIsBrowsing] = useState<boolean>(false);
+  const [isRecording, setIsRecording] = useState<boolean>(false);
+  const [qrCodeDetected, setQrCodeDetected] = useState<string>("");
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const [isBrowsing, setIsBrowsing] = React.useState<boolean>(false);
-  const [isRecording, setIsRecording] = React.useState<boolean>(false);
-  const [qrCodeDetected, setQrCodeDetected] = React.useState<string>("");
-  const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
-
-  async function handleTakePicture() {
+  const handleTakePicture = async () => {
     const response = await cameraRef.current?.takePictureAsync({});
     setPicture(response!.uri);
-  }
+  };
 
-  async function toggleRecord() {
+  const toggleRecord = async () => {
     if (isRecording) {
       cameraRef.current?.stopRecording();
       setIsRecording(false);
@@ -53,9 +48,9 @@ export default function HomeScreen() {
       const response = await cameraRef.current?.recordAsync();
       setVideo(response!.uri);
     }
-  }
+  };
 
-  async function handleOpenQRCode() {
+  const handleOpenQRCode = async () => {
     setIsBrowsing(true);
     const browserResult = await WebBrowser.openBrowserAsync(qrCodeDetected, {
       presentationStyle: WebBrowser.WebBrowserPresentationStyle.FORM_SHEET,
@@ -63,7 +58,7 @@ export default function HomeScreen() {
     if (browserResult.type === "cancel") {
       setIsBrowsing(false);
     }
-  }
+  };
 
   const handleBarcodeScanned = async (result: BarcodeScanningResult) => {
     if (result.data) {
@@ -82,6 +77,7 @@ export default function HomeScreen() {
   if (isBrowsing) return <></>;
   if (picture) return <PictureView picture={picture} setPicture={setPicture} />;
   if (video) return <VideoViewComponent video={video} setVideo={setVideo} />;
+
   return (
     <Animated.View
       layout={LinearTransition}
@@ -131,4 +127,6 @@ export default function HomeScreen() {
       </CameraView>
     </Animated.View>
   );
-}
+};
+
+export default HomeScreen;

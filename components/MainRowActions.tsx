@@ -1,16 +1,11 @@
 import * as React from "react";
 import { SymbolView } from "expo-symbols";
-import {
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Asset, getAlbumsAsync, getAssetsAsync } from "expo-media-library";
 import { Image } from "expo-image";
 import { CameraMode } from "expo-camera";
 import { Colors } from "@/constants/Colors";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 interface MainRowActionsProps {
   handleTakePicture: () => void;
@@ -22,7 +17,7 @@ export default function MainRowActions({
   handleTakePicture,
   isRecording,
 }: MainRowActionsProps) {
-  const [assets, setAssets] = React.useState<Asset[]>([]);
+  const [asset, setAsset] = React.useState<Asset>();
 
   React.useEffect(() => {
     getAlbums();
@@ -31,73 +26,59 @@ export default function MainRowActions({
   async function getAlbums() {
     const fetchedAlbums = await getAlbumsAsync();
 
-    // Recents album
     const albumAssets = await getAssetsAsync({
       album: fetchedAlbums.find((album) => album.title === "Recentsd"),
       mediaType: "photo",
       sortBy: "creationTime",
-      first: 4,
+      first: 1,
     });
-    setAssets(albumAssets.assets);
+    setAsset(albumAssets.assets[0]);
   }
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={assets}
-        inverted
-        renderItem={({ item }) => (
-          <Image
-            key={item.id}
-            source={item.uri}
-            style={{
-              height: 40,
-              width: 40,
-              borderRadius: 5,
-            }}
-          />
-        )}
-        horizontal
-        contentContainerStyle={{ gap: 6 }}
-        showsHorizontalScrollIndicator={false}
-      />
-      <TouchableOpacity onPress={handleTakePicture}>
-        <SymbolView
-          name={
-            cameraMode === "picture"
-              ? "circle"
-              : isRecording
-              ? "record.circle"
-              : "circle.circle"
-          }
-          size={90}
-          type="hierarchical"
-          tintColor={isRecording ? Colors.light.snapPrimary : "white"}
-          animationSpec={{
-            effect: {
-              type: isRecording ? "pulse" : "bounce",
-            },
-            repeating: isRecording,
-          }}
-          // fallback={} TODO: Add a fallback for android
-        />
-      </TouchableOpacity>
-      <ScrollView
-        horizontal
-        contentContainerStyle={{ gap: 2 }}
-        showsHorizontalScrollIndicator={false}
-      >
-        {[0, 1, 2, 4].map((item) => (
+      {/* CAMERA ROLL */}
+      {asset && (
+        <View style={styles.cameraRoll}>
+          <View style={styles.imgPickerTwo} />
+          <Image source={asset.uri} style={styles.imgPicker} />
+        </View>
+      )}
+
+      <View style={styles.pictureBtn}>
+        <TouchableOpacity onPress={handleTakePicture}>
           <SymbolView
-            key={item}
-            name="face.dashed"
-            size={40}
+            name={
+              cameraMode === "picture"
+                ? "circle"
+                : isRecording
+                ? "record.circle"
+                : "circle.circle"
+            }
+            size={90}
             type="hierarchical"
-            tintColor={"white"}
+            tintColor={isRecording ? Colors.light.snapPrimary : "white"}
+            animationSpec={{
+              effect: {
+                type: isRecording ? "pulse" : "bounce",
+              },
+              repeating: isRecording,
+            }}
             // fallback={} TODO: Add a fallback for android
           />
-        ))}
-      </ScrollView>
+        </TouchableOpacity>
+      </View>
+
+      {/* Filters */}
+      <View
+        style={{
+          width: 40,
+          alignItems: "center",
+          marginLeft: 15,
+        }}
+      >
+        <FontAwesome5 name="smile-wink" size={30} color="white" />
+      </View>
     </View>
   );
 }
@@ -106,9 +87,40 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
     height: 100,
     position: "absolute",
     bottom: 45,
+    gap: 15,
+    paddingHorizontal: 95,
+  },
+  cameraRoll: {
+    width: 40,
+    alignItems: "center",
+    flexDirection: "row",
+  },
+
+  pictureBtn: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  imgPicker: {
+    height: 30,
+    width: 20,
+    borderRadius: 5,
+    borderWidth: 2,
+    borderColor: "white",
+    transform: [{ rotate: "15deg" }],
+  },
+  imgPickerTwo: {
+    height: 30,
+    width: 20,
+    transform: [{ rotate: "-15deg" }],
+    borderRadius: 5,
+    borderWidth: 2,
+    borderColor: "white",
+    position: "absolute",
+    top: 0,
+    right: 32,
   },
 });

@@ -42,9 +42,8 @@ export default function IconButton({
       <SymbolView
         name={iosName}
         size={ICON_SIZE}
-        // type="hierarchical"
         style={
-          width && height //this won't scale :(
+          width && height
             ? {
                 width,
                 height,

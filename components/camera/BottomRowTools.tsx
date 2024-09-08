@@ -1,8 +1,8 @@
 import * as React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import IconButton from "./IconButton";
+import IconButton from "../IconButton";
 import { Link } from "expo-router";
-import { ThemedText } from "./ThemedText";
+import { ThemedText } from "../theme/ThemedText";
 import { CameraMode } from "expo-camera";
 
 interface BottomRowToolsProps {

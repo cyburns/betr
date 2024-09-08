@@ -1,6 +1,6 @@
 import { TouchableOpacity } from "react-native";
 import IconButton from "./IconButton";
-import { ThemedText } from "./ThemedText";
+import { ThemedText } from "./theme/ThemedText";
 
 interface QRCodeButton {
   handleOpenQRCode: () => void;

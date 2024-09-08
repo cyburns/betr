@@ -40,7 +40,7 @@ export default function MainRowActions({
     <View style={styles.container}>
       {/* CAMERA ROLL */}
       {asset && (
-        <Link href={"/media-library"} asChild>
+        <Link href={"/(screens)/media-library"} asChild>
           <TouchableOpacity style={styles.cameraRoll}>
             <View style={styles.imgPickerTwo} />
             <Image source={asset.uri} style={styles.imgPicker} />
@@ -73,7 +73,7 @@ export default function MainRowActions({
       </View>
 
       {/* Filters */}
-      <Link href={"/media-library"} asChild>
+      <Link href={"/(screens)/media-library"} asChild>
         <TouchableOpacity
           style={{
             width: 40,

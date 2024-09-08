@@ -1,6 +1,6 @@
 import { Image } from "expo-image";
 import { Alert, StyleSheet, View } from "react-native";
-import IconButton from "./IconButton";
+import IconButton from "../IconButton";
 import { saveToLibraryAsync } from "expo-media-library";
 import Animated, {
   FadeIn,

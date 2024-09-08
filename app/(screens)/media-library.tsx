@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Link, Stack } from "expo-router";
 import { Button, ScrollView } from "react-native";
-
 import { Asset, getAlbumsAsync, getAssetsAsync } from "expo-media-library";
 import { Image } from "expo-image";
 

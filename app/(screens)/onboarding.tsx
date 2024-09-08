@@ -2,8 +2,8 @@ import { Image, StyleSheet, Platform, Button, Alert } from "react-native";
 
 import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/theme/ThemedText";
+import { ThemedView } from "@/components/theme/ThemedView";
 import { SymbolView } from "expo-symbols";
 import { Colors } from "@/constants/Colors";
 import { useCameraPermissions, useMicrophonePermissions } from "expo-camera";

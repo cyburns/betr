@@ -7,15 +7,15 @@ import {
   CameraView,
   FlashMode,
 } from "expo-camera";
-import BottomRowTools from "@/components/BottomRowTools";
-import MainRowActions from "@/components/MainRowActions";
-import PictureView from "@/components/PictureView";
+import BottomRowTools from "@/components/camera/BottomRowTools";
+import MainRowActions from "@/components/camera/MainRowActions";
+import PictureView from "@/components/camera/PictureView";
 import Animated, {
   FadeIn,
   FadeOut,
   LinearTransition,
 } from "react-native-reanimated";
-import CameraTools from "@/components/CameraTools";
+import CameraTools from "@/components/camera/CameraTools";
 import * as WebBrowser from "expo-web-browser";
 import QRCodeButton from "@/components/QRCodeButton";
 import VideoViewComponent from "@/components/VideoView";

@@ -9,11 +9,8 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { LogBox } from "react-native";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
-LogBox.ignoreAllLogs(); //🥲
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -26,7 +23,6 @@ export default function RootLayout() {
     "mon-b": require("../assets/fonts/Montserrat-Bold.ttf"),
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);
@@ -58,6 +54,7 @@ export default function RootLayout() {
             animation: "fade",
           }}
         />
+        <Stack.Screen name="(modals)/image" />
       </Stack>
     </ThemeProvider>
   );

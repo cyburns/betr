@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { SafeAreaView, View } from "react-native";
 
 import {
@@ -87,7 +87,7 @@ const HomeScreen = () => {
     >
       <CameraView
         ref={cameraRef}
-        style={{ flex: 1 }}
+        style={{ flex: 1, backgroundColor: "black" }}
         facing={cameraFacing}
         mode={cameraMode}
         zoom={cameraZoom}
@@ -118,10 +118,10 @@ const HomeScreen = () => {
               }
               cameraMode={cameraMode}
             />
-            <BottomRowTools
+            {/* <BottomRowTools
               cameraMode={cameraMode}
               setCameraMode={setCameraMode}
-            />
+            /> */}
           </View>
         </SafeAreaView>
       </CameraView>

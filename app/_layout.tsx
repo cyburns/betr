@@ -17,9 +17,19 @@ LogBox.ignoreAllLogs(); //🥲
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+
+  const [loaded, error] = useFonts({
+    mon: require("../assets/fonts/Montserrat-Regular.ttf"),
+    "mon-sb": require("../assets/fonts/Montserrat-SemiBold.ttf"),
+    "mon-light": require("../assets/fonts/Montserrat-Light.ttf"),
+    "mon-med": require("../assets/fonts/Montserrat-Medium.ttf"),
+    "mon-b": require("../assets/fonts/Montserrat-Bold.ttf"),
   });
+
+  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
+  useEffect(() => {
+    if (error) throw error;
+  }, [error]);
 
   useEffect(() => {
     if (loaded) {

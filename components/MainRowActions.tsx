@@ -6,6 +6,7 @@ import { Image } from "expo-image";
 import { CameraMode } from "expo-camera";
 import { Colors } from "@/constants/Colors";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { Link } from "expo-router";
 
 interface MainRowActionsProps {
   handleTakePicture: () => void;
@@ -39,10 +40,12 @@ export default function MainRowActions({
     <View style={styles.container}>
       {/* CAMERA ROLL */}
       {asset && (
-        <View style={styles.cameraRoll}>
-          <View style={styles.imgPickerTwo} />
-          <Image source={asset.uri} style={styles.imgPicker} />
-        </View>
+        <Link href={"/media-library"} asChild>
+          <TouchableOpacity style={styles.cameraRoll}>
+            <View style={styles.imgPickerTwo} />
+            <Image source={asset.uri} style={styles.imgPicker} />
+          </TouchableOpacity>
+        </Link>
       )}
 
       <View style={styles.pictureBtn}>
@@ -70,15 +73,17 @@ export default function MainRowActions({
       </View>
 
       {/* Filters */}
-      <View
-        style={{
-          width: 40,
-          alignItems: "center",
-          marginLeft: 15,
-        }}
-      >
-        <FontAwesome5 name="smile-wink" size={30} color="white" />
-      </View>
+      <Link href={"/media-library"} asChild>
+        <TouchableOpacity
+          style={{
+            width: 40,
+            alignItems: "center",
+            marginLeft: 15,
+          }}
+        >
+          <FontAwesome5 name="smile-wink" size={30} color="white" />
+        </TouchableOpacity>
+      </Link>
     </View>
   );
 }
@@ -90,7 +95,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     height: 100,
     position: "absolute",
-    bottom: 45,
+    bottom: 20,
     gap: 15,
     paddingHorizontal: 95,
   },

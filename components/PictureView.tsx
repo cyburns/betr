@@ -1,7 +1,6 @@
 import { Image } from "expo-image";
-import { Alert, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import IconButton from "./IconButton";
-import { shareAsync } from "expo-sharing";
 import { saveToLibraryAsync } from "expo-media-library";
 import Animated, {
   FadeIn,
@@ -20,67 +19,45 @@ export default function PictureView({ picture, setPicture }: PictureViewProps) {
       entering={FadeIn}
       exiting={FadeOut}
     >
-      <View
-        style={{
-          position: "absolute",
-          right: 6,
-          zIndex: 1,
-          paddingTop: 50,
-          gap: 16,
-        }}
-      >
+      <View style={styles.container}>
         <IconButton
           onPress={async () => {
             saveToLibraryAsync(picture);
-            Alert.alert("✅ Picture saved!");
+            Alert.alert("Picture saved!");
           }}
           iosName={"arrow.down"}
           androidName="close"
         />
-        <IconButton
-          onPress={() => setPicture("")}
-          iosName={"square.dashed"}
-          androidName="close"
-        />
-        <IconButton
-          onPress={() => setPicture("")}
-          iosName={"circle.dashed"}
-          androidName="close"
-        />
-        <IconButton
-          onPress={() => setPicture("")}
-          iosName={"triangle"}
-          androidName="close"
-        />
-        <IconButton
-          onPress={async () => await shareAsync(picture)}
-          iosName={"square.and.arrow.up"}
-          androidName="close"
-        />
       </View>
-
-      <View
-        style={{
-          position: "absolute",
-          zIndex: 1,
-          paddingTop: 50,
-          left: 6,
-        }}
-      >
+      <View style={styles.close}>
         <IconButton
           onPress={() => setPicture("")}
           iosName={"xmark"}
-          androidName="close"
+          androidName="close-sharp"
         />
       </View>
-      <Image
-        source={picture}
-        style={{
-          height: "100%",
-          width: "100%",
-          borderRadius: 5,
-        }}
-      />
+      <Image source={picture} style={styles.save} />
     </Animated.View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    position: "absolute",
+    right: 6,
+    zIndex: 1,
+    paddingTop: 50,
+    gap: 16,
+  },
+  close: {
+    position: "absolute",
+    zIndex: 1,
+    paddingTop: 50,
+    left: 12,
+  },
+  save: {
+    height: "100%",
+    width: "100%",
+    borderRadius: 5,
+  },
+});

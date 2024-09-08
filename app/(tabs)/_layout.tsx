@@ -1,10 +1,6 @@
 import { Redirect, Tabs } from "expo-router";
 import React from "react";
-import {
-  MaterialIcons,
-  Feather,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
+import { MaterialIcons, Feather, Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { useFirstTimeOpen } from "@/hooks/useFirstTimeOpen";
@@ -25,10 +21,11 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="map"
+        name="search"
         options={{
+          headerShown: false,
           tabBarIcon: ({ color }) => (
-            <Feather name="map-pin" size={24} color={color} />
+            <Ionicons name="search" color={color} size={27} />
           ),
         }}
       />
@@ -41,14 +38,16 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="map"
         options={{
+          headerTitle: "Memories",
+          headerTitleStyle: {
+            fontFamily: "mon-sb",
+            fontSize: 20,
+            color: Colors.light.text,
+          },
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="account-outline"
-              size={34}
-              color={color}
-            />
+            <Feather name="map-pin" size={24} color={color} />
           ),
         }}
       />

@@ -1,13 +1,11 @@
 import { ComponentProps } from "react";
-
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { SFSymbol, SymbolView } from "expo-symbols";
 import { StyleProp, TouchableOpacity, ViewStyle } from "react-native";
-import { Link } from "expo-router";
 
 const CONTAINER_PADDING = 5;
 const CONTAINER_WIDTH = 34;
-const ICON_SIZE = 25;
+const ICON_SIZE = 28;
 
 interface IconButtonProps {
   iosName: SFSymbol;
@@ -31,10 +29,11 @@ export default function IconButton({
       activeOpacity={0.5}
       style={[
         {
-          backgroundColor: "#00000050",
           padding: CONTAINER_PADDING,
           borderRadius: (CONTAINER_WIDTH + CONTAINER_PADDING * 2) / 2,
           width: CONTAINER_WIDTH,
+          justifyContent: "center",
+          alignItems: "center",
         },
         containerStyle,
       ]}

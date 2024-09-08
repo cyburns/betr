@@ -14,39 +14,23 @@ interface CameraToolsProps {
 export default function CameraTools({
   cameraZoom,
   cameraFlash,
-  cameraTorch,
   setCameraZoom,
   setCameraFacing,
-  setCameraTorch,
   setCameraFlash,
 }: CameraToolsProps) {
   return (
     <View
       style={{
         position: "absolute",
-        right: 6,
+        right: 12,
         zIndex: 1,
-        gap: 16,
+        gap: 10,
+        backgroundColor: "#00000050",
+        paddingVertical: 8,
+        paddingHorizontal: 4,
+        borderRadius: 25,
       }}
     >
-      <IconButton
-        onPress={() => setCameraTorch((prevValue) => !prevValue)}
-        iosName={
-          cameraTorch ? "flashlight.off.circle" : "flashlight.slash.circle"
-        }
-        androidName="flash"
-      />
-      <IconButton
-        onPress={() =>
-          setCameraFacing((prevValue) =>
-            prevValue === "back" ? "front" : "back"
-          )
-        }
-        iosName={"arrow.triangle.2.circlepath.camera"}
-        androidName="close"
-        width={25}
-        height={21}
-      />
       <IconButton
         onPress={() =>
           setCameraFlash((prevValue) => (prevValue === "off" ? "on" : "off"))
@@ -79,6 +63,17 @@ export default function CameraTools({
         }}
         iosName={"minus.magnifyingglass"}
         androidName="close"
+      />
+      <IconButton
+        onPress={() =>
+          setCameraFacing((prevValue) =>
+            prevValue === "back" ? "front" : "back"
+          )
+        }
+        iosName={"arrow.triangle.2.circlepath.camera"}
+        androidName="close"
+        width={25}
+        height={21}
       />
     </View>
   );

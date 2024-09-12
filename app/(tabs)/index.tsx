@@ -118,10 +118,6 @@ const HomeScreen = () => {
               }
               cameraMode={cameraMode}
             />
-            {/* <BottomRowTools
-              cameraMode={cameraMode}
-              setCameraMode={setCameraMode}
-            /> */}
           </View>
         </SafeAreaView>
       </CameraView>

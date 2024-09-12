@@ -35,8 +35,6 @@ const CameraRoll = () => {
   }
 
   const routeToImage = (uri: string) => {
-    console.log("URI --------------->", uri);
-
     router.push({
       pathname: "/(modals)/image",
       params: { image: uri },

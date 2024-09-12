@@ -1,5 +1,4 @@
-import { Image, StyleSheet, Platform, Button, Alert } from "react-native";
-
+import { Image, StyleSheet, Button, Alert } from "react-native";
 import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/theme/ThemedText";
@@ -47,8 +46,6 @@ export default function Onboarding() {
       return false;
     }
 
-    // only set to true once user provides permissions
-    // this prevents taking user to home screen without permissions
     await AsyncStorage.setItem("hasOpened", "true");
     return true;
   }

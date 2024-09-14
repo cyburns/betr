@@ -27,4 +27,11 @@ export const Colors = {
     snapPrimary: "#FFFC00",
   },
   primary,
+  white: "#FFFFFF",
+  lightGray: "#A8A8A8",
+  black: "#0f0f0f",
+  darkGray: "#303030",
+  legalBlue: "#E0F1FF",
+  offBlack: "#262626",
+  error: "#FF003A",
 };

@@ -11,8 +11,9 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH } from "@/firebase.config";
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { Colors } from "@/constants/Colors";
+import { Ionicons } from "@expo/vector-icons";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -75,6 +76,27 @@ const RootLayoutNav = () => {
           name="(screens)/auth/auth"
           options={{
             headerTitle: "Welcome",
+            headerBackground: () => (
+              <View
+                style={{
+                  backgroundColor: Colors.dark.background,
+                  flex: 1,
+                  borderBottomColor: Colors.dark.background,
+                  borderBottomWidth: 1,
+                }}
+              />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="(screens)/auth/emailAndPassword"
+          options={{
+            headerTitle: "Email and Password",
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => router.back()}>
+                <Ionicons name="chevron-back" size={24} color={"#fff"} />
+              </TouchableOpacity>
+            ),
             headerBackground: () => (
               <View
                 style={{

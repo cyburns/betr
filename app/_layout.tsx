@@ -4,17 +4,19 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { User, onAuthStateChanged } from "firebase/auth";
+import { FIREBASE_AUTH } from "@/firebase.config";
+import { View } from "react-native";
+import { Colors } from "@/constants/Colors";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-
   const [loaded, error] = useFonts({
     mon: require("../assets/fonts/Montserrat-Regular.ttf"),
     "mon-sb": require("../assets/fonts/Montserrat-SemiBold.ttf"),
@@ -37,10 +39,54 @@ export default function RootLayout() {
     return null;
   }
 
+  return <RootLayoutNav />;
+}
+
+const RootLayoutNav = () => {
+  const [isUser, setIsUser] = useState<User | null>(null);
+
+  const colorScheme = useColorScheme();
+  const router = useRouter();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(
+      FIREBASE_AUTH,
+      (user: User | null) => {
+        setIsUser(user);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (isUser) {
+      router.replace("(tabs)");
+    } else {
+      router.replace("(screens)/auth/auth");
+    }
+  }, [isUser]);
+
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="(screens)/auth/auth"
+          options={{
+            headerTitle: "Welcome",
+            headerBackground: () => (
+              <View
+                style={{
+                  backgroundColor: Colors.dark.background,
+                  flex: 1,
+                  borderBottomColor: Colors.dark.background,
+                  borderBottomWidth: 1,
+                }}
+              />
+            ),
+          }}
+        />
         <Stack.Screen name="+not-found" />
         <Stack.Screen
           name="media-library"
@@ -58,4 +104,4 @@ export default function RootLayout() {
       </Stack>
     </ThemeProvider>
   );
-}
+};

@@ -19,7 +19,7 @@ const CameraRoll = () => {
     getAllAssets();
   }, []);
 
-  async function getAllAssets() {
+  const getAllAssets = async () => {
     if (!hasNextPage) return;
 
     const albumAssets = await getAssetsAsync({
@@ -32,12 +32,12 @@ const CameraRoll = () => {
     setAssets((prevAssets) => [...prevAssets, ...albumAssets.assets]);
     setHasNextPage(albumAssets.hasNextPage);
     setEndCursor(albumAssets.endCursor);
-  }
+  };
 
-  const routeToImage = (uri: string) => {
+  const routeToImage = (uri: string, height: number) => {
     router.push({
       pathname: "/(modals)/image",
-      params: { image: uri },
+      params: { uri, height },
     });
   };
 
@@ -47,7 +47,7 @@ const CameraRoll = () => {
 
     return (
       <TouchableOpacity
-        onPress={() => routeToImage(item.uri)}
+        onPress={() => routeToImage(item.uri, item.height)}
         style={{
           justifyContent: "center",
           alignItems: "center",

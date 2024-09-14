@@ -14,7 +14,7 @@ import { Image as ExpoImage } from "expo-image";
 const { width, height } = Dimensions.get("window");
 
 const SinglePicture = () => {
-  const { image } = useLocalSearchParams();
+  const { uri } = useLocalSearchParams();
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -48,7 +48,7 @@ const SinglePicture = () => {
       contentContainerStyle={{ justifyContent: "flex-start" }}
     >
       <ExpoImage
-        source={image}
+        source={uri}
         style={{
           width,
           height: height - 200,

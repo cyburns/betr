@@ -64,7 +64,7 @@ const RootLayoutNav = () => {
     if (isUser) {
       router.replace("(tabs)");
     } else {
-      router.replace("(screens)/auth/auth");
+      router.replace("(screens)/auth/login/LogIn");
     }
   }, [isUser]);
 
@@ -73,9 +73,9 @@ const RootLayoutNav = () => {
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
-          name="(screens)/auth/auth"
+          name="(screens)/auth/login/LogIn"
           options={{
-            headerTitle: "Welcome",
+            headerTitle: "Log in",
             headerBackground: () => (
               <View
                 style={{
@@ -89,9 +89,51 @@ const RootLayoutNav = () => {
           }}
         />
         <Stack.Screen
-          name="(screens)/auth/emailAndPassword"
+          name="(screens)/auth/signup/SignUp"
           options={{
-            headerTitle: "Email and Password",
+            headerTitle: "Sign up",
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => router.back()}>
+                <Ionicons name="chevron-back" size={24} color={"#fff"} />
+              </TouchableOpacity>
+            ),
+            headerBackground: () => (
+              <View
+                style={{
+                  backgroundColor: Colors.dark.background,
+                  flex: 1,
+                  borderBottomColor: Colors.dark.background,
+                  borderBottomWidth: 1,
+                }}
+              />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="(screens)/auth/login/LoginWithEmail"
+          options={{
+            headerTitle: "Log in",
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => router.back()}>
+                <Ionicons name="chevron-back" size={24} color={"#fff"} />
+              </TouchableOpacity>
+            ),
+            headerBackground: () => (
+              <View
+                style={{
+                  backgroundColor: Colors.dark.background,
+                  flex: 1,
+                  borderBottomColor: Colors.dark.background,
+                  borderBottomWidth: 1,
+                }}
+              />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="(screens)/auth/signup/SignupWithEmail"
+          options={{
+            headerTitle: "Sign up",
             headerLeft: () => (
               <TouchableOpacity onPress={() => router.back()}>
                 <Ionicons name="chevron-back" size={24} color={"#fff"} />

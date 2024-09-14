@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ActivityIndicator,
-  Pressable,
 } from "react-native";
 import { FIREBASE_AUTH, FIREBASE_STORE } from "@/firebase.config";
 import { signInWithEmailAndPassword } from "@firebase/auth";
@@ -17,10 +16,15 @@ import { Feather } from "@expo/vector-icons";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { validate } from "email-validator";
-import { doc, getDoc } from "firebase/firestore";
 import { useDelayedAutoFocus } from "@/hooks/utils/useDelayedAutoFocus";
+import { createUserWithEmailAndPassword } from "@firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
-const SignUp = () => {
+interface EmailAndPasswordProps {
+  isLogin: boolean;
+}
+
+const EmailAndPassword = ({ isLogin }: EmailAndPasswordProps) => {
   const auth = FIREBASE_AUTH;
   const database = FIREBASE_STORE;
 
@@ -66,8 +70,8 @@ const SignUp = () => {
 
     setIsValidEmail(null);
     setIsValidPassword(null);
-    login();
-    return;
+
+    isLogin ? login() : signUp();
   };
 
   const login = async () => {
@@ -75,15 +79,34 @@ const SignUp = () => {
     setError(null);
 
     try {
-      const userCred = await signInWithEmailAndPassword(auth, email, password);
-
-      if (userCred) {
-        const docRef = doc(database, "users", userCred.user.uid);
-        const docSnap = await getDoc(docRef);
-        const userData = docSnap.data();
-      }
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
       setError("Invalid email or password. Try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const signUp = async () => {
+    setIsLoading(true);
+    try {
+      const newAuthUser = await createUserWithEmailAndPassword(
+        auth,
+        email.trim(),
+        password.trim()
+      );
+
+      await setDoc(doc(database, "users", newAuthUser.user.uid), {
+        userId: newAuthUser.user.uid,
+        email,
+        bio: "",
+        createdAt: new Date(),
+        followers: [],
+        following: [],
+        posts: [],
+      });
+    } catch (error) {
+      setError("Error, please try again later.");
     } finally {
       setIsLoading(false);
     }
@@ -100,10 +123,13 @@ const SignUp = () => {
         >
           {({ handleChange, handleBlur, values }) => (
             <>
-              <Text style={styles.header}>Welcome back!</Text>
+              <Text style={styles.header}>
+                {isLogin ? "Welcome back!" : "Welcome!"}
+              </Text>
               <Text style={styles.subHeader}>
-                Enter the email address and password associated with your
-                account.
+                {isLogin
+                  ? "Enter the email address and password associated with your account."
+                  : "Enter your email address and create a password to get started."}
               </Text>
               <TextInput
                 placeholder="Email"
@@ -190,8 +216,6 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -270,3 +294,5 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
 });
+
+export default EmailAndPassword;

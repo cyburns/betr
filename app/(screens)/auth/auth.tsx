@@ -3,27 +3,49 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { defaultStyles } from "@/constants/Style";
-import { Link } from "expo-router";
+import { useRouter } from "expo-router";
 
-const auth = () => {
+interface AuthProps {
+  isLogin: boolean;
+}
+
+const Auth = ({ isLogin }: AuthProps) => {
+  const router = useRouter();
+
+  const navToEmailAndPassword = () => {
+    if (isLogin) {
+      router.push("(screens)/auth/login/LoginWithEmail");
+    } else {
+      router.push("(screens)/auth/signup/SignupWithEmail");
+    }
+  };
+
+  const navToSignUp = () => {
+    router.push("(screens)/auth/signup/SignUp");
+  };
+
   return (
     <View style={styles.container}>
       <View style={{ gap: 4 }}>
-        <Text style={styles.header}>Hello</Text>
+        <Text style={styles.header}>
+          {isLogin ? "Hello" : "Let's get started"}
+        </Text>
         <Text style={styles.subHeader}>
-          You can use your email or username, or continue with your social
-          account.
+          {isLogin
+            ? "You can use your email or username, or continue with your social account."
+            : "Use your email or continue with a social account to create an account."}
         </Text>
       </View>
 
-      <View style={{ marginBottom: "25%" }}>
-        <Link href="(screens)/auth/emailAndPassword" asChild>
-          <TouchableOpacity style={defaultStyles.btn}>
-            <Text style={[defaultStyles.btnText, { color: Colors.dark.text }]}>
-              Continue with email
-            </Text>
-          </TouchableOpacity>
-        </Link>
+      <View style={{ marginBottom: "10%" }}>
+        <TouchableOpacity
+          style={defaultStyles.btn}
+          onPress={navToEmailAndPassword}
+        >
+          <Text style={[defaultStyles.btnText, { color: Colors.dark.text }]}>
+            {isLogin ? "Continue with email" : "Continue with email"}
+          </Text>
+        </TouchableOpacity>
 
         <View style={styles.seperatorView}>
           <View style={styles.icon} />
@@ -44,7 +66,9 @@ const auth = () => {
               style={defaultStyles.btnIcon}
               color={Colors.dark.background}
             />
-            <Text style={styles.btnOutlineText}>Continue with Apple</Text>
+            <Text style={styles.btnOutlineText}>
+              {isLogin ? "Continue with Apple" : "Continue with email"}
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.btnOutline}>
@@ -55,7 +79,7 @@ const auth = () => {
               color={Colors.light.text}
             />
             <Text style={styles.btnOutlineTexWhite}>
-              Continue with Facebook
+              {isLogin ? "Continue with Facebook" : "Continue with email"}
             </Text>
           </TouchableOpacity>
 
@@ -66,8 +90,23 @@ const auth = () => {
               style={defaultStyles.btnIcon}
               color={Colors.light.text}
             />
-            <Text style={styles.btnOutlineTexWhite}>Continue with Google</Text>
+            <Text style={styles.btnOutlineTexWhite}>
+              {isLogin ? "Continue with Google" : "Continue with email"}
+            </Text>
           </TouchableOpacity>
+
+          {isLogin && (
+            <TouchableOpacity style={styles.signUp} onPress={navToSignUp}>
+              <Text style={styles.btnOutlineTexWhite}>
+                Haven't signed up yet?
+              </Text>
+              <Text
+                style={[styles.btnOutlineTexWhite, { color: Colors.primary }]}
+              >
+                Create an account
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>
@@ -128,6 +167,11 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.light.icon,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
+  signUp: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+  },
 });
 
-export default auth;
+export default Auth;

@@ -1,14 +1,33 @@
-import { View, Text } from "react-native";
-import React from "react";
-import { Image } from "expo-image";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
+import React, { useState } from "react";
+import { getAuth, signOut } from "firebase/auth";
+import { defaultStyles } from "@/constants/Style";
 
 const map = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const auth = getAuth();
+
+  const hadleLogout = async () => {
+    setIsLoading(true);
+
+    try {
+      await signOut(auth);
+    } catch (error) {
+      Alert.alert(
+        "Error",
+        "An error occurred while logging out. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <View>
-      <Image
-        source={"ph://9F983DBA-EC35-42B8-8773-B597CF782EDD/L0/001"}
-        style={[{ width: "100%", height: 300 }]}
-      />
+    <View style={{ paddingTop: 100 }}>
+      <TouchableOpacity style={defaultStyles.btn} onPress={hadleLogout}>
+        <Text style={defaultStyles.btnText}>Log out</Text>
+      </TouchableOpacity>
     </View>
   );
 };
